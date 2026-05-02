@@ -24,6 +24,7 @@ public class MenuProductos extends Menu {
         System.out.println("4 - Modificar producto");
         System.out.println("5 - Eliminar producto");
         System.out.println("0 - Volver");
+        System.out.println("----------------------");
     }
 
     @Override
@@ -32,7 +33,7 @@ public class MenuProductos extends Menu {
 
         do {
         mostrarMenu();
-        opcion = leerEntero("Elija una opción(0-6): ");
+        opcion = leerEntero(scanner, "\nElija una opción(0-6): ");
 
         switch (opcion) {
             case 1:
@@ -68,11 +69,11 @@ public class MenuProductos extends Menu {
     @Override
     protected void crear() {
 
-        String nombre = leerTexto("Ingrese nombre: ");
-        double precio = leerDouble("Ingrese precio: ");
+        String nombre = leerTexto(scanner, "Ingrese nombre: ");
+        double precio = leerDouble(scanner, "Ingrese precio: ");
 
         // TODO: Implementar busqueda de productos y categoría por nombre
-        int codigoCategoria = leerEntero("Código de categoría: ");
+        int codigoCategoria = leerEntero(scanner, "Código de categoría: ");
 
         try {
             productoService.crearProducto(nombre, precio, codigoCategoria);
@@ -84,15 +85,18 @@ public class MenuProductos extends Menu {
 
     @Override
     protected void listar() {
-        for (Producto p : productoService.listar()) {
-            System.out.println(p);
-        }
+        // Añadí mensaje de validación
+        if (productoService.listar().isEmpty())
+            System.out.println("No hay elementos cargados");
+        else
+            for (Producto p : productoService.listar())
+                System.out.println(p);
     }
 
     @Override
     protected void buscar() {
 
-        int codigo = leerEntero("Ingrese el código: ");
+        int codigo = leerEntero(scanner, "Ingrese el código: ");
 
         try {
             Producto p = productoService.buscar(codigo);
@@ -105,9 +109,9 @@ public class MenuProductos extends Menu {
     @Override
     protected void modificar() {
 
-        int codigo = leerEntero("Código del producto: ");
-        String nombre = leerTexto("Nuevo nombre: ");
-        double precio = leerDouble("Nuevo precio: ");
+        int codigo = leerEntero(scanner, "Código del producto: ");
+        String nombre = leerTexto(scanner, "Nuevo nombre: ");
+        double precio = leerDouble(scanner, "Nuevo precio: ");
 
         try {
             productoService.modificar(codigo, nombre, precio);
@@ -120,9 +124,9 @@ public class MenuProductos extends Menu {
     @Override
     protected void eliminar() {
 
-        int codigo = leerEntero("Ingrese el código: ");
+        int codigo = leerEntero(scanner, "Ingrese el código: ");
 
-        if (leerSiNo("¿Borrar definitivamente?")) {
+        if (leerSiNo(scanner, "¿Borrar definitivamente?")) {
             try {
                 productoService.eliminar(codigo);
                 System.out.println("Producto eliminado correctamente");

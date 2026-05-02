@@ -31,6 +31,7 @@ public class Main {
         MenuCategorias menuCategorias = new MenuCategorias(scanner, categoriaService);
         MenuProductos menuProductos = new MenuProductos(scanner, productoService);
 
+        // TODO: Interfaz para repositorio, elegir temática del e-commerce, repensar los métodos de entrada de datos (scanner estático?)
 
         // ===== MENÚ PRINCIPAL =====
         int opcion;
@@ -39,19 +40,19 @@ public class Main {
             System.out.println("\n==========================");
             System.out.println("    SISTEMA DE GESTIÓN    ");
             System.out.println("==========================");
-            System.out.println("1. Gestionar categorías");
-            System.out.println("2. Gestionar productos");
+            System.out.println("1. Gestionar productos");
+            System.out.println("2. Gestionar categorías");
             System.out.println("0. Salir");
             System.out.println("==========================");
 
-            opcion = leerEntero("Seleccione una opción: ");
+            opcion = leerEntero(scanner,"Seleccione una opción: ");
 
             switch (opcion) {
                 case 1:
-                    menuCategorias.ejecutar();
+                    menuProductos.ejecutar();
                     break;
                 case 2:
-                    menuProductos.ejecutar();
+                    menuCategorias.ejecutar();
                     break;
                 case 0:
                     System.out.println("Saliendo del sistema...");

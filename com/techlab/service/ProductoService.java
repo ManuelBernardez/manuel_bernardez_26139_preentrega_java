@@ -7,6 +7,7 @@ import com.techlab.utils.Secuencias;
 import com.techlab.domain.model.*;
 
 import java.util.List;
+import java.util.Scanner;
 
 
 public class ProductoService {
@@ -20,6 +21,7 @@ public class ProductoService {
     }
 
     public void crearProducto(String nombre, double precio, int codigoCategoria) {
+        Scanner scanner = new Scanner(System.in);
 
         for (Producto p : repoProductos.listado()) {
             if (p.getNombre().equalsIgnoreCase(nombre))
@@ -35,12 +37,12 @@ public class ProductoService {
 
         switch (codigoCategoria) {
             case 1:
-                int vencimiento = leerEntero("Caduca en (x días): ");
+                int vencimiento = leerEntero(scanner, "Caduca en (x días): ");
                 producto = new ProductoAlimenticio(codigo, nombre, precio, c, vencimiento);
                 break;
 
             case 2:
-                double mesesGarantia = leerDouble("Meses de garantía: ");
+                double mesesGarantia = leerDouble(scanner, "Meses de garantía: ");
                 producto = new ProductoElectronico(codigo, nombre, precio, c, mesesGarantia);
                 break;
 

@@ -5,12 +5,11 @@ import java.util.Scanner;
 import static com.techlab.utils.Validar.esPositivo;
 import static com.techlab.utils.Validar.esVacio;
 
-public class EntradaDatos {
-    private static Scanner scanner = new Scanner(System.in);
+public final class EntradaDatos {
 
     private EntradaDatos(){}
 
-    public static int leerEntero(String mensaje) {
+    public static int leerEntero(Scanner scanner, String mensaje) {
         while (true) {
             try {
                 System.out.print(mensaje);
@@ -27,7 +26,7 @@ public class EntradaDatos {
         }
     }
 
-    public static double leerDouble(String mensaje) {
+    public static double leerDouble(Scanner scanner, String mensaje) {
         while (true) {
             try {
                 System.out.print(mensaje);
@@ -44,7 +43,7 @@ public class EntradaDatos {
         }
     }
 
-    public static String leerTexto(String mensaje) {
+    public static String leerTexto(Scanner scanner, String mensaje) {
         while (true) {
             System.out.print(mensaje);
             String texto = scanner.nextLine();
@@ -57,9 +56,9 @@ public class EntradaDatos {
         }
     }
 
-    public static boolean leerSiNo(String mensaje) {
+    public static boolean leerSiNo(Scanner scanner, String mensaje) {
         while (true) {
-            String respuesta = leerTexto(mensaje + " (s/n): ").toLowerCase();
+            String respuesta = leerTexto(scanner,mensaje + " (s/n): ").toLowerCase();
 
             if (respuesta.equals("s") || respuesta.equals("si")) return true;
 

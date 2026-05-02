@@ -32,7 +32,7 @@ public class MenuCategorias extends Menu {
 
         do {
             mostrarMenu();
-            opcion = leerEntero("Elija una opción(0-5): ");
+            opcion = leerEntero(scanner, "Elija una opción(0-5): ");
 
             switch (opcion) {
                 case 1:
@@ -68,8 +68,8 @@ public class MenuCategorias extends Menu {
     @Override
     protected void crear() {
 
-        String nombre = leerTexto("Ingrese el nombre: ");
-        String descripcion = leerTexto("Ingrese la descripción: ");
+        String nombre = leerTexto(scanner,"Ingrese el nombre: ");
+        String descripcion = leerTexto(scanner, "Ingrese la descripción: ");
 
         try {
             categoriaService.crear(nombre, descripcion);
@@ -90,7 +90,7 @@ public class MenuCategorias extends Menu {
     @Override
     protected void buscar() {
 
-        int codigo = leerEntero("Ingrese el código: ");
+        int codigo = leerEntero(scanner, "Ingrese el código: ");
 
         try {
             Categoria c = categoriaService.buscar(codigo);
@@ -105,9 +105,9 @@ public class MenuCategorias extends Menu {
     @Override
     protected void modificar() {
 
-        int codigo = leerEntero("Código de la categoría: ");
-        String nombre = leerTexto("Nuevo nombre: ");
-        String descripcion = leerTexto("Nueva descripción: ");
+        int codigo = leerEntero(scanner, "Código de la categoría: ");
+        String nombre = leerTexto(scanner, "Nuevo nombre: ");
+        String descripcion = leerTexto(scanner, "Nueva descripción: ");
 
         try {
             categoriaService.modificar(codigo, nombre, descripcion);
@@ -120,9 +120,9 @@ public class MenuCategorias extends Menu {
     @Override
     protected void eliminar() {
 
-        int codigo = leerEntero("Ingrese el código: ");
+        int codigo = leerEntero(scanner, "Ingrese el código: ");
 
-        if (leerSiNo("¿Borrar definitivamente?")) {
+        if (leerSiNo(scanner, "¿Borrar definitivamente?")) {
             try {
                 categoriaService.eliminar(codigo);
                 System.out.println("Categoría eliminada correctamente");

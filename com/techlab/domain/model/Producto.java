@@ -1,7 +1,5 @@
 package com.techlab.domain.model;
 
-import com.techlab.domain.repository.RepositorioGenerico;
-import static com.techlab.utils.Validar.esVacio;
 import com.techlab.domain.interfaces.*;
 
 public abstract class Producto implements Calculable, Identificable
@@ -11,7 +9,6 @@ public abstract class Producto implements Calculable, Identificable
     protected double precio;
     protected String nombreCategoria;
 
-    // Constructor
     public Producto(int codigo, String nombre, double precio, String nombreCategoria){
         this.codigo = codigo;
         this.nombre = nombre;
@@ -19,7 +16,6 @@ public abstract class Producto implements Calculable, Identificable
         this.nombreCategoria = nombreCategoria;
     }
 
-    // Getters y setters.
     @Override
     public int getCodigo() {
         return codigo;
@@ -31,10 +27,6 @@ public abstract class Producto implements Calculable, Identificable
 
     public void setNombre(String nuevoNombre){
         this.nombre = nuevoNombre;
-    }
-
-    public double getPrecio(){
-        return precio;
     }
 
     public void setPrecio(double nuevoPrecio){

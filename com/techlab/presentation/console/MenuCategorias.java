@@ -1,6 +1,8 @@
 package com.techlab.presentation.console;
 
 import static com.techlab.utils.EntradaDatos.*;
+
+import com.techlab.domain.model.Producto;
 import com.techlab.service.CategoriaService;
 import com.techlab.domain.model.Categoria;
 import com.techlab.domain.exception.*;
@@ -23,7 +25,7 @@ public class MenuCategorias extends Menu {
         System.out.println("3. Consultar categoría");
         System.out.println("4. Modificar categoría");
         System.out.println("5. Eliminar categoría");
-        System.out.println("0. Volver");
+        System.out.println("6. Volver");
     }
 
     @Override
@@ -82,12 +84,13 @@ public class MenuCategorias extends Menu {
             System.out.println("Categoría creada correctamente");
 
         } catch (CategoriaDuplicadaException e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Error. " + e.getMessage());
         }
     }
 
     @Override
     protected void listar() {
+
         if (categoriaService.listar().isEmpty())
             System.out.println("No hay categorías cargadas");
         else
@@ -123,16 +126,31 @@ public class MenuCategorias extends Menu {
     @Override
     protected void modificar() {
 
-        int codigo = leerEntero(scanner, "Código de la categoría: ");
-        String nombre = leerTexto(scanner, "Nuevo nombre: ");
+        int c = leerEntero(scanner, "Código de la categoría: ");
+        Categoria categoria = categoriaService.buscarPorCodigo(c);
+
+        String nombre = "";
+        if(leerSiNo(scanner, "¿Modificar nombre?"))
+            nombre = leerTexto(scanner, "Nuevo nombre: ");
+
         String descripcion = leerTexto(scanner, "Nueva descripción: ");
 
-        categoriaService.modificar(codigo, nombre, descripcion);
-        System.out.println("Categoría modificada correctamente");
+        try{
+            categoriaService.modificar(categoria, nombre, descripcion);
+            System.out.println("Categoría modificada correctamente");
+
+        } catch (CategoriaDuplicadaException e){
+            System.out.println("Error al cambiar de nombre. " + e.getMessage());
+        }
     }
 
     @Override
     protected void eliminar() {
+
+        if (categoriaService.estaVacio()) {
+            System.out.println("No hay categorías cargadas");
+            return;
+        }
 
         int codigo = leerEntero(scanner, "Ingrese el código: ");
 

@@ -1,7 +1,5 @@
 package com.techlab.domain.model;
 
-import static com.techlab.utils.Validar.esPositivo;
-
 public class ProductoAlimenticio extends Producto {
 
     private int diasParaVencimiento;

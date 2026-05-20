@@ -16,24 +16,19 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         // Repositorios (Estructura de datos)
-        RepositorioGenerico<Categoria> repoCategorias = new RepositorioGenerico<>();
-        RepositorioGenerico<Producto> repoProductos = new RepositorioGenerico<>();
-
-        repoCategorias.agregar(new Categoria(1, "Alimentos", "Estos productos tienen vencimiento y afectan al precio final"));
-        repoCategorias.agregar(new Categoria(2, "Electrónica", "Estos productos tienen garantía y afectan al precio final"));
-
+        Repositorio<Categoria> repoCategorias = new Repositorio<>();
+        Repositorio<Producto> repoProductos = new Repositorio<>();
 
         // Servicios (Lógica)
         CategoriaService categoriaService = new CategoriaService(repoCategorias);
         ProductoService productoService = new ProductoService(repoProductos, repoCategorias);
 
+        categoriaService.crear("Alimentos", "Estos productos tienen Vencimiento");
+        categoriaService.crear("Electronica", "Estos productos tienen Garantía");
+
         // Menús (UI)
         MenuCategorias menuCategorias = new MenuCategorias(scanner, categoriaService);
         MenuProductos menuProductos = new MenuProductos(scanner, productoService);
-
-        // TODO: Interfaz para repositorio, elegir temática del e-commerce, repensar los métodos de entrada de datos (scanner estático?)
-        // TODO: Mostrar categorias al agregar producto y Buscar productos por nombre añadido, actualicé forma de modificar productos
-        // TODO: Refactor sobre la creación y modificación de productos, añadí búsqueda por nombre de categorías y productos
 
         // ===== MENÚ PRINCIPAL =====
         int opcion;
@@ -47,7 +42,7 @@ public class Main {
             System.out.println("3. Salir");
             System.out.println("==========================");
 
-            opcion = leerEntero(scanner,"Seleccione una opción: ");
+            opcion = leerEntero(scanner, "Elegir opción (1-3): ");
 
             switch (opcion) {
                 case 1:

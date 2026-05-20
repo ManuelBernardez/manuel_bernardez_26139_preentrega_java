@@ -2,9 +2,13 @@ package com.techlab.domain.repository;
 import java.util.ArrayList;
 import com.techlab.domain.interfaces.Identificable;
 
-public class RepositorioGenerico<T extends Identificable> {
+public class Repositorio<T extends Identificable> {
 
-    private final ArrayList<T> lista = new ArrayList<>();
+    private final ArrayList<T> lista;
+
+    public Repositorio() {
+        this.lista = new ArrayList<>();
+    }
 
     public void agregar (T objeto) {
 

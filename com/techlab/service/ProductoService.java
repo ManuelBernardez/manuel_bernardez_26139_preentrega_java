@@ -1,6 +1,6 @@
 package com.techlab.service;
 
-import com.techlab.domain.repository.RepositorioGenerico;
+import com.techlab.domain.repository.Repositorio;
 import com.techlab.domain.exception.*;
 import com.techlab.utils.Secuencias;
 import com.techlab.domain.model.*;
@@ -9,11 +9,10 @@ import static com.techlab.utils.Validar.esVacio;
 import java.util.List;
 
 public class ProductoService {
-    private final RepositorioGenerico<Producto> repoProductos;
-    private final RepositorioGenerico<Categoria> repoCategorias;
+    private final Repositorio<Producto> repoProductos;
+    private final Repositorio<Categoria> repoCategorias;
 
-    public ProductoService(RepositorioGenerico<Producto> repoProductos,
-                           RepositorioGenerico<Categoria> repoCategorias) {
+    public ProductoService(Repositorio<Producto> repoProductos, Repositorio<Categoria> repoCategorias) {
         this.repoProductos = repoProductos;
         this.repoCategorias = repoCategorias;
     }
@@ -71,21 +70,23 @@ public class ProductoService {
 
             p.setNombre(nombre);
         }
-
     }
 
     public void eliminar(int codigo) {
+
         Producto p = buscarPorCodigo(codigo);
         repoProductos.eliminar(p);
     }
 
     private void validarDuplicado(String nombre) {
+
         if (repoProductos.buscarPorNombre(nombre) != null)
             throw new ProductoDuplicadoException(nombre);
 
     }
 
     private void validarCategoria(String categoria) {
+
         if (repoCategorias.buscarPorNombre(categoria) == null)
             throw new CategoriaNoEncontradaException(categoria);
     }

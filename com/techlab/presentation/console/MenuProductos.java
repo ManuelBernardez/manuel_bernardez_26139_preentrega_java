@@ -27,7 +27,7 @@ public class MenuProductos extends Menu {
         System.out.println("3 - Consultar producto");
         System.out.println("4 - Modificar producto");
         System.out.println("5 - Eliminar producto");
-        System.out.println("0 - Volver");
+        System.out.println("6 - Volver");
         System.out.println("----------------------");
     }
 
@@ -78,6 +78,7 @@ public class MenuProductos extends Menu {
 
     @Override
     protected void crear() {
+
         try {
             String nombre = leerTexto(scanner, "Ingrese nombre: ");
             double precio = leerDouble(scanner, "Ingrese precio: ");
@@ -89,7 +90,7 @@ public class MenuProductos extends Menu {
                     productoService.crearAlimenticio(nombre, precio, categoria, vencimiento);
                     break;
 
-                case "Electrónica":
+                case "Electronica":
                     double garantia = leerDouble(scanner, "Meses de garantía: ");
                     productoService.crearElectronico(nombre, precio, categoria, garantia);
                     break;
@@ -108,6 +109,7 @@ public class MenuProductos extends Menu {
 
     @Override
     protected void listar() {
+
         // Añadí mensaje de validación
         if (productoService.listar().isEmpty())
             System.out.println("No hay elementos cargados");
@@ -118,6 +120,7 @@ public class MenuProductos extends Menu {
 
     @Override
     protected void buscarPorCodigo() {
+
         try {
             int codigo = leerEntero(scanner, "Ingrese el código: ");
 
@@ -131,6 +134,7 @@ public class MenuProductos extends Menu {
 
     @Override
     protected void buscarPorNombre() {
+
         try {
             String nombre = leerTexto(scanner, "Ingrese el nombre: ");
 
@@ -144,7 +148,7 @@ public class MenuProductos extends Menu {
 
     @Override
     protected void modificar() {
-        // Cambio en la forma de modificar productos
+
         int codigo = leerEntero(scanner, "Código del producto: ");
         Producto producto = productoService.buscarPorCodigo(codigo);
 
@@ -158,10 +162,10 @@ public class MenuProductos extends Menu {
         try{
             productoService.modificar(producto, nombre, precio);
             System.out.println("Producto modificado correctamente");
+
         } catch (ProductoDuplicadoException e){
             System.out.println("Error al cambiar de nombre. " + e.getMessage());
         }
-
     }
 
     @Override

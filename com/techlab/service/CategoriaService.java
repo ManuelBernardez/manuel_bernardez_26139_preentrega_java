@@ -1,6 +1,6 @@
 package com.techlab.service;
 
-import com.techlab.domain.repository.RepositorioGenerico;
+import com.techlab.domain.repository.Repositorio;
 import com.techlab.domain.model.Categoria;
 import com.techlab.domain.exception.*;
 import com.techlab.utils.Secuencias;
@@ -11,15 +11,17 @@ import static com.techlab.utils.Validar.esVacio;
 
 public class CategoriaService {
 
-    private final RepositorioGenerico<Categoria> repoCategorias;
+    private final Repositorio<Categoria> repoCategorias;
 
-    public CategoriaService(RepositorioGenerico<Categoria> repoCategorias) {
+    public CategoriaService(Repositorio<Categoria> repoCategorias) {
         this.repoCategorias = repoCategorias;
     }
 
     public void crear(String nombre, String descripcion) {
 
-        validarDuplicadoNombre(nombre);
+        if (repoCategorias.buscarPorNombre(nombre) != null)
+            throw new CategoriaDuplicadaException(nombre);
+
         Categoria categoria = new Categoria(Secuencias.generarCodigoCategoria(), nombre, descripcion);
 
         repoCategorias.agregar(categoria);
@@ -30,6 +32,7 @@ public class CategoriaService {
     }
 
     public Categoria buscarPorCodigo(int codigo) {
+
         Categoria c = repoCategorias.buscarPorCodigo(codigo);
 
         if (c == null)
@@ -48,23 +51,19 @@ public class CategoriaService {
         return c;
     }
 
-    public void modificar(int codigo, String nombre, String descripcion) {
+    public void modificar(Categoria categoria, String nombre, String descripcion) {
 
-        Categoria c = buscarPorCodigo(codigo);
+        categoria.setDescripcion(descripcion);
 
-        System.out.println("Información actual:");
-        System.out.println(c);
+        // Si se quiere cambiar el nombre, verifico que el nuevo nombre sea distinto al de los productos existentes
+        if (!esVacio(nombre)) {
+            Categoria existente = repoCategorias.buscarPorNombre(nombre);
 
-        for (Categoria cat : repoCategorias.listado()) {
-            if (cat.getNombre().equalsIgnoreCase(nombre) && cat.getCodigo() != codigo)
-                throw new CategoriaDuplicadaException("nombre");
+            if (existente != null)
+                throw new CategoriaDuplicadaException(nombre);
+
+            categoria.setNombre(nombre);
         }
-
-        if (!esVacio(nombre))
-            c.setNombre(nombre);
-
-        if (!esVacio(descripcion))
-            c.setDescripcion(descripcion);
     }
 
     public void eliminar(int codigo) {
@@ -72,11 +71,7 @@ public class CategoriaService {
         repoCategorias.eliminar(c);
     }
 
-    private void validarDuplicadoNombre(String nombre) {
-
-        Categoria existente = repoCategorias.buscarPorNombre(nombre);
-
-        if (existente != null)
-            throw new CategoriaDuplicadaException(nombre);
+    public boolean estaVacio(){
+        return repoCategorias.estaVacio();
     }
 }
